@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title> Canyoning Pacet Mojokerto </title>
+<title> Canyoning Pacet</title>
 <style>
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin: 0; background-color: #f0f2f5; color: #333; padding-bottom: 80px; }
     
@@ -244,13 +244,13 @@
             <div class="card-section">
                 <span class="card-title">Dokumentasi</span>
                 <div class="form-row">
-                    <div><span class="lbl-main">🚁 Drone Cinematic </span><span class="lbl-sub">@100.000</span></div>
+                    <div><span class="lbl-main">🚁 Cinematic</span><span class="lbl-sub">@100.000</span></div>
                     <div class="input-group">
                         <input type="number" id="inpDroneQty" class="inp-qty" value="0" min="0" oninput="calculate()" placeholder="0">
                     </div>
                 </div>
                 <div class="form-row">
-                    <div><span class="lbl-main">🎬 Drone Mentah </span><span class="lbl-sub">@50.000</span></div>
+                    <div><span class="lbl-main">🎬 Drone Mentah</span><span class="lbl-sub">@50.000</span></div>
                     <div class="input-group">
                         <input type="number" id="inpCineQty" class="inp-qty" value="0" min="0" oninput="calculate()" placeholder="0">
                     </div>
@@ -637,8 +637,8 @@
         addRow("Shuttle", parseFloat(document.getElementById("inpShuttleQty").value)||0, PRICES.SHUTTLE);
         addRow("Tiket", parseFloat(document.getElementById("inpTiketQty").value)||0, PRICES.TIKET);
         addRow("Ojek", parseFloat(document.getElementById("inpOjekQty").value)||0, PRICES.OJEK);
-        addRow("Drone", parseFloat(document.getElementById("inpDroneQty").value)||0, PRICES.DRONE);
-        addRow("Cinematic", parseFloat(document.getElementById("inpCineQty").value)||0, PRICES.CINEMATIC);
+        addRow("Cinematic", parseFloat(document.getElementById("inpDroneQty").value)||0, PRICES.DRONE);
+        addRow("Drone Mentah", parseFloat(document.getElementById("inpCineQty").value)||0, PRICES.CINEMATIC);
         addRow(document.getElementById("inpOptName").value || "Optional", parseFloat(document.getElementById("inpOptQty").value)||0, parseFloat(document.getElementById("inpOptPrice").value)||0);
 
         document.getElementById("rcName").innerText = name;
