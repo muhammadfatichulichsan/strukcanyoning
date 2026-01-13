@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title> Canyoning Pacet</title>
+<title>Canyoning Pacet</title>
 <style>
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin: 0; background-color: #f0f2f5; color: #333; padding-bottom: 80px; }
     
@@ -40,14 +40,12 @@
         color: #bbb;
         background-color: #fafafa;
     }
-    /* Tombol saat sudah lunas: Jadi Abu-abu tapi BISA DIKLIK */
     tr.row-done .btn-action {
         background-color: #6c757d; 
         color: #fff;
         border: none;
-        cursor: pointer; /* Tetap bisa diklik */
+        cursor: pointer; 
     }
-    /* Ubah teks tombol jadi 'Batal?' */
     tr.row-done .btn-action span { display: none; }
     tr.row-done .btn-action::after { content: "Lunas (Batal?)"; font-size: 0.9em; }
 
@@ -116,30 +114,67 @@
     .btn-print { width: 100%; background: #2c3e50; color: white; padding: 14px; border: none; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; }
     .btn-print:active { transform: scale(0.98); }
 
-    /* === RECEIPT STYLE === */
+    /* === RECEIPT STYLE (PRO UPDATE) === */
     #receiptContainer { display: none; }
 
     @media print {
+        @page { margin: 0; size: auto; }
+        body { margin: 0; font-family: 'Courier New', Courier, monospace; }
         body * { visibility: hidden; }
+        
         #receiptContainer, #receiptContainer * { visibility: visible; }
         #receiptContainer {
             display: block; position: absolute; left: 0; top: 0; width: 100%;
-            background: white; color: black; font-family: 'Courier New', Courier, monospace; padding: 20px; box-sizing: border-box;
+            background: white; color: black;
+            padding: 10px 20px; box-sizing: border-box;
+            font-size: 12px;
         }
-        .rc-header { text-align: center; margin-bottom: 20px; border-bottom: 2px dashed #000; padding-bottom: 10px; }
-        .rc-title { font-size: 1.5rem; font-weight: bold; margin: 0; }
-        .rc-subtitle { font-size: 0.9rem; color: #333; margin: 5px 0; }
-        .rc-info { margin-bottom: 15px; font-size: 0.9rem; }
-        .rc-info div { display: flex; justify-content: space-between; margin-bottom: 3px; }
-        .rc-table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
-        .rc-table th { border-bottom: 1px solid #000; text-align: left; padding: 5px 0; font-size: 0.8rem; }
-        .rc-table td { padding: 5px 0; font-size: 0.9rem; vertical-align: top; }
+        
+        /* Header Title */
+        .rc-header { text-align: center; margin-bottom: 10px; }
+        .rc-title { font-size: 18px; font-weight: 900; margin: 0 0 5px 0; text-transform: uppercase; letter-spacing: 1px; }
+        .rc-address { font-size: 10px; color: #000; margin-bottom: 2px; line-height: 1.2; }
+        
+        /* Separator Line */
+        .rc-line { border-bottom: 1px dashed #000; margin: 8px 0; display: block; width: 100%; }
+
+        /* Transaction Info */
+        .rc-meta { display: flex; justify-content: space-between; font-size: 10px; margin-bottom: 2px; }
+        .rc-meta-label { font-weight: bold; }
+        
+        /* Table Items */
+        .rc-table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 11px; }
+        .rc-table th { text-align: left; padding: 5px 0; border-bottom: 1px dashed #000; text-transform: uppercase; font-size: 10px; }
+        .rc-table td { padding: 4px 0; vertical-align: top; }
         .rc-right { text-align: right; }
-        .rc-qty { width: 30px; text-align: center; }
-        .rc-totals { border-top: 2px dashed #000; padding-top: 10px; }
-        .rc-row { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 1rem; }
-        .rc-grand { font-weight: bold; font-size: 1.2rem; margin-top: 5px; border-top: 1px solid #000; padding-top: 5px; }
-        .rc-footer { text-align: center; margin-top: 30px; font-size: 0.8rem; color: #555; }
+        .rc-center { text-align: center; }
+        
+        /* Totals Area */
+        .rc-totals { margin-top: 5px; }
+        .rc-row { display: flex; justify-content: space-between; margin-bottom: 3px; font-size: 11px; }
+        .rc-grand-box { 
+            border-top: 2px dashed #000; 
+            border-bottom: 2px dashed #000; 
+            padding: 8px 0; margin-top: 5px; margin-bottom: 10px;
+            font-weight: 900; font-size: 16px; 
+            display: flex; justify-content: space-between;
+        }
+
+        /* Footer */
+        .rc-footer { text-align: center; margin-top: 15px; font-size: 10px; color: #000; }
+        
+        /* Fake Barcode using CSS */
+        .barcode {
+            height: 35px; width: 80%; margin: 15px auto 5px auto;
+            background: repeating-linear-gradient(
+                90deg,
+                #000 0px, #000 2px,
+                #fff 2px, #fff 4px,
+                #000 4px, #000 5px,
+                #fff 5px, #fff 7px
+            );
+        }
+        
         .modal, .header, #app { display: none !important; }
     }
     
@@ -152,9 +187,7 @@
     .secret-input { padding: 8px; border: 1px solid #ccc; border-radius: 4px; text-align: center; width: 80px; }
 
     /* RESET BUTTON (Admin) */
-    .reset-cache {
-        display: block; margin: 20px auto; padding: 10px; background: #d32f2f; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight:bold;
-    }
+    .reset-cache { display: block; margin: 20px auto; padding: 10px; background: #d32f2f; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight:bold; }
 
 </style>
 </head>
@@ -192,6 +225,8 @@
 <div id="paymentModal" class="modal">
     <div class="modal-content">
         
+        <input type="hidden" id="inpPICName" value="Admin">
+
         <div class="m-header">
             <div>
                 <h4 id="modalName">Nama Tamu</h4>
@@ -300,31 +335,54 @@
 
 <div id="receiptContainer">
     <div class="rc-header">
-        <h1 class="rc-title">CANYONING PACET</h1>
-        <p class="rc-subtitle">Jl. Wisata Air Panas KM. 0, Padusan, Hutan, Kec. Pacet</p>
-        <p class="rc-subtitle">Kabupaten Mojokerto, Jawa Timur 61374</p>
+        <div class="rc-title">CANYONING PACET</div>
+        <div class="rc-address">Jl. Wisata Air Panas KM. 0</div>
+        <div class="rc-address">Padusan, Mojokerto, Jawa Timur</div>
     </div>
     
-    <div class="rc-info">
-        <div><span>Tanggal:</span> <span id="rcDate"></span></div>
-        <div><span>Nama:</span> <span id="rcName" style="font-weight:bold;"></span></div>
+    <div class="rc-line"></div>
+    
+    <div class="rc-meta">
+        <span>No. Trx: <span id="rcTrxId" style="font-weight:bold;"></span></span>
+        <span id="rcTime"></span>
     </div>
+    <div class="rc-meta">
+        <span>Tamu: <span id="rcName" style="font-weight:bold; text-transform:uppercase;"></span></span>
+    </div>
+     <div class="rc-meta">
+        <span>Kasir: <span id="rcCashier"></span></span>
+        <span id="rcDate"></span>
+    </div>
+
+    <div class="rc-line"></div>
 
     <table class="rc-table">
         <thead>
-            <tr><th>Item</th><th class="rc-qty">Qty</th><th class="rc-right">Total</th></tr>
+            <tr>
+                <th style="width:50%;">ITEM</th>
+                <th class="rc-center" style="width:15%;">QTY</th>
+                <th class="rc-right" style="width:35%;">TOTAL</th>
+            </tr>
         </thead>
         <tbody id="rcBody"></tbody>
     </table>
 
+    <div class="rc-line"></div>
+
     <div class="rc-totals">
         <div class="rc-row"><span>Subtotal</span><span id="rcSubtotal">0</span></div>
-        <div class="rc-row" style="color:#2e7d32;"><span>Sudah DP</span><span id="rcDP">0</span></div>
-        <div class="rc-row rc-grand">
-            <span id="rcLabelFinal">KEKURANGAN</span><span id="rcFinal">0</span>
+        <div class="rc-row"><span>Sudah DP</span><span id="rcDP">0</span></div>
+        <div class="rc-grand-box">
+            <span id="rcLabelFinal">KEKURANGAN</span>
+            <span id="rcFinal">0</span>
         </div>
     </div>
-    <div class="rc-footer"><p>Struk ini adalah bukti pembayaran yang sah.<br>Terima Kasih atas kunjungan Anda.</p></div>
+
+    <div class="rc-footer">
+        <p>Terima Kasih atas kunjungan Anda.<br>Selamat Berpetualang!</p>
+        <div class="barcode"></div>
+        <div style="font-size:9px; margin-top:5px;">*** SIMPAN STRUK INI ***</div>
+    </div>
 </div>
 
 
@@ -460,10 +518,7 @@
             tableHTML += `</tr></thead><tbody>`;
 
             items.forEach(row => {
-                // GENERATE UNIK ID untuk baris ini
                 let rowID = `BID_${row[0]}_${row[2]}_${row[1]}`.replace(/\s/g, '');
-                
-                // CEK LOCALSTORAGE
                 let isDone = localStorage.getItem(rowID) === "true";
                 let rowClass = isDone ? "row-done" : "";
 
@@ -477,7 +532,6 @@
                     tableHTML += `<td>${cellContent}</td>`;
                 }
                 let rowDataString = JSON.stringify(row).replace(/"/g, '&quot;');
-                // Kirim 'this' untuk referensi tombol
                 tableHTML += `<td><button class="btn-action" onclick="openPaymentModal(${rowDataString}, this)"><span>Hitung</span></button></td>`;
                 tableHTML += `</tr>`;
             });
@@ -522,18 +576,16 @@
     }
 
     function openPaymentModal(row, btnElement) {
-        // CEK APAKAH SUDAH LUNAS?
         if (btnElement && btnElement.closest('tr').classList.contains('row-done')) {
             if(confirm("Batalkan status LUNAS untuk tamu ini?")) {
                 let tr = btnElement.closest('tr');
                 let id = tr.getAttribute('data-id');
-                localStorage.removeItem(id); // Hapus dari memori
-                tr.classList.remove('row-done'); // Hapus UI
+                localStorage.removeItem(id); 
+                tr.classList.remove('row-done'); 
             }
-            return; // STOP, jangan buka modal
+            return; 
         }
 
-        // Jika belum lunas, buka modal normal
         if(btnElement) {
             activeRowElement = btnElement.closest('tr');
             activeRowID = activeRowElement.getAttribute('data-id');
@@ -545,15 +597,26 @@
         document.getElementById("modalName").innerText = row[2] || "Tamu";
         document.getElementById("modalDateInfo").innerText = "Tanggal: " + row[0];
 
+        // --- AMBIL PIC DARI DATA ROW (Index 3) ---
+        let picName = row[3];
+        if(picName && picName !== "-") {
+            // Format Title Case (Huruf depan besar)
+            picName = picName.trim().replace(/\b\w/g, c => c.toUpperCase());
+        } else {
+            picName = "Admin";
+        }
+        document.getElementById("inpPICName").value = picName;
+        // ----------------------------------------
+
         // Defaults
         document.getElementById("inpPaxQty").value = pax;
         document.getElementById("inpPaxPrice").value = 300000; 
         document.getElementById("inpShoeQty").value = 0;   
         document.getElementById("inpShuttleQty").value = 0; 
         document.getElementById("inpTiketQty").value = 0; 
-        document.getElementById("inpOjekQty").value = 0;    
-        document.getElementById("inpDroneQty").value = 0;    
-        document.getElementById("inpCineQty").value = 0;    
+        document.getElementById("inpOjekQty").value = 0;     
+        document.getElementById("inpDroneQty").value = 0;     
+        document.getElementById("inpCineQty").value = 0;     
         document.getElementById("inpOptQty").value = 0;
         document.getElementById("inpOptPrice").value = 0;
         document.getElementById("inpOptName").value = "Optional / Lainnya";
@@ -611,11 +674,15 @@
 
     function printReceipt() {
         const name = document.getElementById("modalName").innerText;
+        const picName = document.getElementById("inpPICName").value; // Ambil PIC yang disimpan
         
-        // --- LOGIC TANGGAL HARI INI ---
+        // --- LOGIC TANGGAL & TRX ID ---
         const today = new Date();
-        const options = { day: 'numeric', month: 'long', year: 'numeric' };
-        const currentDate = new Intl.DateTimeFormat('id-ID', options).format(today);
+        const dateStr = new Intl.DateTimeFormat('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }).format(today);
+        const timeStr = new Intl.DateTimeFormat('id-ID', { hour: '2-digit', minute: '2-digit' }).format(today);
+        
+        const randomNum = Math.floor(Math.random() * 900) + 100;
+        const trxId = "TRX-" + today.getDate() + (today.getMonth()+1) + "-" + randomNum;
 
         const qtyPax = parseFloat(document.getElementById("inpPaxQty").value) || 0;
         const pricePax = parseFloat(document.getElementById("inpPaxPrice").value) || 0;
@@ -628,7 +695,7 @@
             if (qty > 0) {
                 let total = qty * price;
                 grandTotal += total;
-                tbody.innerHTML += `<tr><td>${name}</td><td class="rc-qty">x${qty}</td><td class="rc-right">${formatRupiah(total)}</td></tr>`;
+                tbody.innerHTML += `<tr><td>${name}</td><td class="rc-center">${qty}</td><td class="rc-right">${formatRupiah(total)}</td></tr>`;
             }
         }
 
@@ -641,8 +708,12 @@
         addRow("Drone Mentah", parseFloat(document.getElementById("inpCineQty").value)||0, PRICES.CINEMATIC);
         addRow(document.getElementById("inpOptName").value || "Optional", parseFloat(document.getElementById("inpOptQty").value)||0, parseFloat(document.getElementById("inpOptPrice").value)||0);
 
+        // Isi Data ke HTML Receipt
+        document.getElementById("rcTrxId").innerText = trxId;
         document.getElementById("rcName").innerText = name;
-        document.getElementById("rcDate").innerText = currentDate;
+        document.getElementById("rcDate").innerText = dateStr;
+        document.getElementById("rcTime").innerText = timeStr;
+        document.getElementById("rcCashier").innerText = picName; // SET NAMA KASIR DISINI
         document.getElementById("rcSubtotal").innerText = formatRupiah(grandTotal);
         
         let valDP = parseFloat(document.getElementById("inpDP").value) || 0;
@@ -652,21 +723,19 @@
         let lblFinal = document.getElementById("rcLabelFinal");
         let valFinal = document.getElementById("rcFinal");
         
-        if(final > 0) { lblFinal.innerText = "KEKURANGAN"; valFinal.innerText = formatRupiah(final); } 
+        if(final > 0) { lblFinal.innerText = "TAGIHAN"; valFinal.innerText = formatRupiah(final); } 
         else if(final < 0) { lblFinal.innerText = "KEMBALI"; valFinal.innerText = formatRupiah(Math.abs(final)); } 
         else { lblFinal.innerText = "STATUS"; valFinal.innerText = "LUNAS"; }
 
-        // --- SIMPAN KE LOCAL STORAGE (AGAR TAHAN REFRESH) ---
+        // --- SIMPAN KE LOCAL STORAGE ---
         if(activeRowElement && activeRowID) {
             activeRowElement.classList.add('row-done');
             localStorage.setItem(activeRowID, "true");
         }
-        // ------------------------
 
         window.print();
     }
     
-    // Fungsi Hapus Cache (Opsional, untuk Admin reset status)
     function clearPaidStatus() {
         if(confirm("Yakin hapus semua status lunas di HP ini?")) {
             localStorage.clear();
