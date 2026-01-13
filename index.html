@@ -5,12 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Canyoning Pacet</title>
 <style>
+    /* === GLOBAL STYLES (TAMPILAN HP) === */
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin: 0; background-color: #f0f2f5; color: #333; padding-bottom: 80px; }
     
-    /* Header Utama */
     .header { background: #2c3e50; color: white; padding: 15px; text-align: center; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
     h2 { margin: 0; font-size: 1.2rem; }
-
     .container { max-width: 800px; margin: 0 auto; padding: 0 15px; }
 
     /* Controls */
@@ -19,14 +18,10 @@
 
     /* Accordion List */
     .accordion-item { background: white; border-radius: 8px; margin-bottom: 10px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); overflow: hidden; }
-    .accordion-header { 
-        padding: 15px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; 
-        background: #fff; transition: background 0.2s; border-bottom: 1px solid transparent;
-    }
+    .accordion-header { padding: 15px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; background: #fff; transition: background 0.2s; border-bottom: 1px solid transparent; }
     .accordion-header:active { background: #f0f0f0; }
     .accordion-header .date { font-weight: 600; font-size: 1em; }
     .accordion-header .count { font-size: 0.8em; background: #eee; padding: 4px 10px; border-radius: 20px; color: #555; }
-    
     .accordion-body { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
     .table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; }
     
@@ -34,149 +29,45 @@
     th { background: #f8f9fa; text-align: left; padding: 10px; color: #666; font-size: 0.75rem; text-transform: uppercase; border-bottom: 1px solid #eee; white-space: nowrap; }
     td { padding: 10px; border-bottom: 1px solid #eee; color: #333; }
     
-    /* === LOGIKA CORETAN & BATAL === */
-    tr.row-done td {
-        text-decoration: line-through;
-        color: #bbb;
-        background-color: #fafafa;
-    }
-    tr.row-done .btn-action {
-        background-color: #6c757d; 
-        color: #fff;
-        border: none;
-        cursor: pointer; 
-    }
+    tr.row-done td { text-decoration: line-through; color: #bbb; background-color: #fafafa; }
+    tr.row-done .btn-action { background-color: #6c757d; color: #fff; border: none; cursor: pointer; }
     tr.row-done .btn-action span { display: none; }
     tr.row-done .btn-action::after { content: "Lunas (Batal?)"; font-size: 0.9em; }
 
-    /* Badges & Buttons */
     .badge { padding: 4px 8px; border-radius: 4px; font-weight: 600; font-size: 0.75em; display: inline-block; }
     .badge-full { background: #ffebee; color: #c62828; } 
     .badge-dp { background: #fff3e0; color: #ef6c00; } 
     .badge-pic { background: #e8f5e9; color: #2e7d32; border-radius: 12px; }
+    .btn-action { background: #007bff; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; width: 100%; }
 
-    .btn-action {
-        background: #007bff; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; width: 100%;
-    }
-
-    /* === MOBILE MODAL STYLES === */
-    .modal {
-        display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; 
-        background-color: #f2f4f8; overflow: hidden; 
-    }
-
-    .modal-content {
-        background-color: #f2f4f8; 
-        width: 100%; height: 100%; 
-        display: flex; flex-direction: column;
-        animation: slideUp 0.3s ease-out;
-    }
-
+    .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: #f2f4f8; overflow: hidden; }
+    .modal-content { background-color: #f2f4f8; width: 100%; height: 100%; display: flex; flex-direction: column; animation: slideUp 0.3s ease-out; }
     @keyframes slideUp { from {transform: translateY(100%);} to {transform: translateY(0);} }
 
-    .m-header {
-        background: white; padding: 15px; display: flex; align-items: center; justify-content: space-between;
-        box-shadow: 0 1px 5px rgba(0,0,0,0.05); z-index: 10;
-    }
+    .m-header { background: white; padding: 15px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 1px 5px rgba(0,0,0,0.05); z-index: 10; }
     .m-header h4 { margin: 0; font-size: 1.1rem; color: #333; }
     .m-header .close-btn { font-size: 1.5rem; cursor: pointer; color: #666; line-height: 1; padding: 0 10px; }
-
     .m-body { flex: 1; overflow-y: auto; padding: 15px; -webkit-overflow-scrolling: touch; }
 
-    .card-section {
-        background: white; border-radius: 12px; padding: 15px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-    }
-    .card-title {
-        font-size: 0.85rem; font-weight: 700; color: #888; text-transform: uppercase; margin-bottom: 10px; display: block; letter-spacing: 0.5px;
-    }
+    .card-section { background: white; border-radius: 12px; padding: 15px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+    .card-title { font-size: 0.85rem; font-weight: 700; color: #888; text-transform: uppercase; margin-bottom: 10px; display: block; letter-spacing: 0.5px; }
 
     .form-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px dashed #eee; }
     .form-row:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-    
     .lbl-main { font-weight: 600; font-size: 0.95rem; color: #333; display: block; }
     .lbl-sub { font-size: 0.75rem; color: #999; display: block; margin-top: 2px; }
-
     .input-group { display: flex; gap: 8px; align-items: center; }
     .inp-qty { width: 50px; text-align: center; padding: 10px 5px; border: 1px solid #ddd; border-radius: 6px; font-weight: bold; font-size: 1rem; }
     .inp-price { width: 100px; text-align: right; padding: 10px; border: 1px solid #ddd; border-radius: 6px; color: #333; font-size: 0.95rem; }
     .inp-full { width: 100%; text-align: left; }
 
-    .m-footer {
-        background: white; padding: 15px; border-top: 1px solid #e0e0e0; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); z-index: 10;
-    }
-    
+    .m-footer { background: white; padding: 15px; border-top: 1px solid #e0e0e0; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); z-index: 10; }
     .total-display { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
     .total-lbl { font-size: 0.9rem; color: #666; }
     .total-val { font-size: 1.3rem; font-weight: 800; color: #2c3e50; }
     .total-val.red { color: #d32f2f; }
     .total-val.green { color: #2e7d32; }
-
     .btn-print { width: 100%; background: #2c3e50; color: white; padding: 14px; border: none; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; }
-    .btn-print:active { transform: scale(0.98); }
-
-    /* === RECEIPT STYLE (PRO UPDATE) === */
-    #receiptContainer { display: none; }
-
-    @media print {
-        @page { margin: 0; size: auto; }
-        body { margin: 0; font-family: 'Courier New', Courier, monospace; }
-        body * { visibility: hidden; }
-        
-        #receiptContainer, #receiptContainer * { visibility: visible; }
-        #receiptContainer {
-            display: block; position: absolute; left: 0; top: 0; width: 100%;
-            background: white; color: black;
-            padding: 10px 20px; box-sizing: border-box;
-            font-size: 12px;
-        }
-        
-        /* Header Title */
-        .rc-header { text-align: center; margin-bottom: 10px; }
-        .rc-title { font-size: 18px; font-weight: 900; margin: 0 0 5px 0; text-transform: uppercase; letter-spacing: 1px; }
-        .rc-address { font-size: 10px; color: #000; margin-bottom: 2px; line-height: 1.2; }
-        
-        /* Separator Line */
-        .rc-line { border-bottom: 1px dashed #000; margin: 8px 0; display: block; width: 100%; }
-
-        /* Transaction Info */
-        .rc-meta { display: flex; justify-content: space-between; font-size: 10px; margin-bottom: 2px; }
-        .rc-meta-label { font-weight: bold; }
-        
-        /* Table Items */
-        .rc-table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 11px; }
-        .rc-table th { text-align: left; padding: 5px 0; border-bottom: 1px dashed #000; text-transform: uppercase; font-size: 10px; }
-        .rc-table td { padding: 4px 0; vertical-align: top; }
-        .rc-right { text-align: right; }
-        .rc-center { text-align: center; }
-        
-        /* Totals Area */
-        .rc-totals { margin-top: 5px; }
-        .rc-row { display: flex; justify-content: space-between; margin-bottom: 3px; font-size: 11px; }
-        .rc-grand-box { 
-            border-top: 2px dashed #000; 
-            border-bottom: 2px dashed #000; 
-            padding: 8px 0; margin-top: 5px; margin-bottom: 10px;
-            font-weight: 900; font-size: 16px; 
-            display: flex; justify-content: space-between;
-        }
-
-        /* Footer */
-        .rc-footer { text-align: center; margin-top: 15px; font-size: 10px; color: #000; }
-        
-        /* Fake Barcode using CSS */
-        .barcode {
-            height: 35px; width: 80%; margin: 15px auto 5px auto;
-            background: repeating-linear-gradient(
-                90deg,
-                #000 0px, #000 2px,
-                #fff 2px, #fff 4px,
-                #000 4px, #000 5px,
-                #fff 5px, #fff 7px
-            );
-        }
-        
-        .modal, .header, #app { display: none !important; }
-    }
     
     #loading { text-align: center; margin-top: 50vh; transform: translateY(-50%); color: #666; }
     .error-msg { color: #d32f2f; background: #ffebee; padding: 15px; border-radius: 8px; text-align: center; margin: 20px; }
@@ -185,10 +76,58 @@
     .summary-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; font-size: 0.9rem; }
     .secret-container { text-align: center; margin-top: 30px; opacity: 0.1; }
     .secret-input { padding: 8px; border: 1px solid #ccc; border-radius: 4px; text-align: center; width: 80px; }
-
-    /* RESET BUTTON (Admin) */
     .reset-cache { display: block; margin: 20px auto; padding: 10px; background: #d32f2f; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight:bold; }
 
+    /* === BAGIAN CETAK STRUK === */
+    #receiptContainer { display: none; }
+
+    @media print {
+        @page { margin: 0; size: auto; }
+
+        .header, #app, .modal, #loading { display: none !important; }
+
+        body { margin: 0; padding: 0; background-color: #fff; width: 100%; }
+
+        #receiptContainer {
+            display: block !important;
+            width: 100%; 
+            background: white; 
+            color: black;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 5px; 
+            box-sizing: border-box;
+            font-size: 12px; 
+            line-height: 1.3;
+        }
+
+        #receiptContainer * { visibility: visible !important; }
+
+        .rc-header { text-align: center; margin-bottom: 10px; }
+        .rc-title { font-size: 16px; font-weight: 900; margin: 0; text-transform: uppercase; }
+        .rc-address { font-size: 10px; margin-bottom: 1px; }
+        
+        .rc-line { border-bottom: 1px dashed #000; margin: 5px 0; display: block; width: 100%; }
+        .rc-meta { display: flex; justify-content: space-between; font-size: 10px; margin-bottom: 2px; }
+        
+        .rc-table { width: 100%; border-collapse: collapse; margin: 5px 0; font-size: 11px; }
+        .rc-table th { text-align: left; padding: 2px 0; border-bottom: 1px dashed #000; text-transform: uppercase; font-size: 10px; }
+        .rc-table td { padding: 4px 0; vertical-align: top; }
+        .rc-right { text-align: right; }
+        .rc-center { text-align: center; }
+        
+        .rc-totals { margin-top: 5px; }
+        .rc-row { display: flex; justify-content: space-between; margin-bottom: 2px; font-size: 11px; }
+        
+        .rc-grand-box { 
+            border-top: 2px dashed #000; 
+            border-bottom: 2px dashed #000; 
+            padding: 6px 0; margin-top: 5px; margin-bottom: 5px;
+            font-weight: 900; font-size: 16px; 
+            display: flex; justify-content: space-between;
+        }
+
+        .rc-footer { text-align: center; margin-top: 15px; font-size: 10px; padding-bottom: 20px; }
+    }
 </style>
 </head>
 <body>
@@ -224,7 +163,6 @@
 
 <div id="paymentModal" class="modal">
     <div class="modal-content">
-        
         <input type="hidden" id="inpPICName" value="Admin">
 
         <div class="m-header">
@@ -236,7 +174,6 @@
         </div>
 
         <div class="m-body">
-            
             <div class="card-section">
                 <span class="card-title">Paket Utama</span>
                 <div class="form-row">
@@ -252,27 +189,19 @@
                 <span class="card-title">Add-ons / Tambahan</span>
                 <div class="form-row">
                     <div><span class="lbl-main">👟 Sepatu</span><span class="lbl-sub">@15.000</span></div>
-                    <div class="input-group">
-                        <input type="number" id="inpShoeQty" class="inp-qty" value="0" min="0" oninput="calculate()" placeholder="0">
-                    </div>
+                    <div class="input-group"><input type="number" id="inpShoeQty" class="inp-qty" value="0" min="0" oninput="calculate()" placeholder="0"></div>
                 </div>
                 <div class="form-row">
                     <div><span class="lbl-main">🚐 Shuttle</span><span class="lbl-sub">@10.000</span></div>
-                    <div class="input-group">
-                        <input type="number" id="inpShuttleQty" class="inp-qty" value="0" min="0" oninput="calculate()" placeholder="0">
-                    </div>
+                    <div class="input-group"><input type="number" id="inpShuttleQty" class="inp-qty" value="0" min="0" oninput="calculate()" placeholder="0"></div>
                 </div>
                 <div class="form-row">
                     <div><span class="lbl-main">🎟️ Tiket</span><span class="lbl-sub">@15.000</span></div>
-                    <div class="input-group">
-                        <input type="number" id="inpTiketQty" class="inp-qty" value="0" min="0" oninput="calculate()" placeholder="0">
-                    </div>
+                    <div class="input-group"><input type="number" id="inpTiketQty" class="inp-qty" value="0" min="0" oninput="calculate()" placeholder="0"></div>
                 </div>
                 <div class="form-row">
                     <div><span class="lbl-main">🏍️ Ojek</span><span class="lbl-sub">@15.000</span></div>
-                    <div class="input-group">
-                        <input type="number" id="inpOjekQty" class="inp-qty" value="0" min="0" oninput="calculate()" placeholder="0">
-                    </div>
+                    <div class="input-group"><input type="number" id="inpOjekQty" class="inp-qty" value="0" min="0" oninput="calculate()" placeholder="0"></div>
                 </div>
             </div>
 
@@ -280,15 +209,11 @@
                 <span class="card-title">Dokumentasi</span>
                 <div class="form-row">
                     <div><span class="lbl-main">🚁 Cinematic</span><span class="lbl-sub">@100.000</span></div>
-                    <div class="input-group">
-                        <input type="number" id="inpDroneQty" class="inp-qty" value="0" min="0" oninput="calculate()" placeholder="0">
-                    </div>
+                    <div class="input-group"><input type="number" id="inpDroneQty" class="inp-qty" value="0" min="0" oninput="calculate()" placeholder="0"></div>
                 </div>
                 <div class="form-row">
                     <div><span class="lbl-main">🎬 Drone Mentah</span><span class="lbl-sub">@50.000</span></div>
-                    <div class="input-group">
-                        <input type="number" id="inpCineQty" class="inp-qty" value="0" min="0" oninput="calculate()" placeholder="0">
-                    </div>
+                    <div class="input-group"><input type="number" id="inpCineQty" class="inp-qty" value="0" min="0" oninput="calculate()" placeholder="0"></div>
                 </div>
             </div>
 
@@ -329,28 +254,27 @@
             </div>
             <button class="btn-print" onclick="printReceipt()">🖨️ CETAK NOTA</button>
         </div>
-
     </div>
 </div>
 
 <div id="receiptContainer">
     <div class="rc-header">
         <div class="rc-title">CANYONING PACET</div>
-        <div class="rc-address">Jl. Wisata Air Panas KM. 0</div>
-        <div class="rc-address">Padusan, Mojokerto, Jawa Timur</div>
+        <div class="rc-address">Jl. Wisata Air Panas KM. 0, Padusan, Hutan</div>
+        <div class="rc-address">Kec. Pacet, Kabupaten Mojokerto, Jawa Timur 61374</div>
     </div>
     
     <div class="rc-line"></div>
     
     <div class="rc-meta">
-        <span>No. Trx: <span id="rcTrxId" style="font-weight:bold;"></span></span>
+        <span>No: <span id="rcTrxId" style="font-weight:bold;"></span></span>
         <span id="rcTime"></span>
     </div>
     <div class="rc-meta">
         <span>Tamu: <span id="rcName" style="font-weight:bold; text-transform:uppercase;"></span></span>
     </div>
      <div class="rc-meta">
-        <span>Kasir: <span id="rcCashier"></span></span>
+        <span>Admin: <span id="rcCashier"></span></span>
         <span id="rcDate"></span>
     </div>
 
@@ -371,7 +295,7 @@
 
     <div class="rc-totals">
         <div class="rc-row"><span>Subtotal</span><span id="rcSubtotal">0</span></div>
-        <div class="rc-row"><span>Sudah DP</span><span id="rcDP">0</span></div>
+        <div class="rc-row"><span>Sudah Bayar</span><span id="rcDP">0</span></div>
         <div class="rc-grand-box">
             <span id="rcLabelFinal">KEKURANGAN</span>
             <span id="rcFinal">0</span>
@@ -379,12 +303,9 @@
     </div>
 
     <div class="rc-footer">
-        <p>Terima Kasih atas kunjungan Anda.<br>Selamat Berpetualang!</p>
-        <div class="barcode"></div>
-        <div style="font-size:9px; margin-top:5px;">*** SIMPAN STRUK INI ***</div>
+        <div style="font-size:9px; margin-top:5px;">*** TERIMA KASIH ***</div>
     </div>
 </div>
-
 
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzcDMlGtcoO2yY1wFd-ZMTyk3hs-dOmlUhnKd-rryL5JYAQSx-R07wRiP-A6D3bPl6Shg/exec"; 
@@ -597,16 +518,14 @@
         document.getElementById("modalName").innerText = row[2] || "Tamu";
         document.getElementById("modalDateInfo").innerText = "Tanggal: " + row[0];
 
-        // --- AMBIL PIC DARI DATA ROW (Index 3) ---
+        // --- AMBIL PIC (Index 3) ---
         let picName = row[3];
         if(picName && picName !== "-") {
-            // Format Title Case (Huruf depan besar)
             picName = picName.trim().replace(/\b\w/g, c => c.toUpperCase());
         } else {
             picName = "Admin";
         }
         document.getElementById("inpPICName").value = picName;
-        // ----------------------------------------
 
         // Defaults
         document.getElementById("inpPaxQty").value = pax;
@@ -674,13 +593,11 @@
 
     function printReceipt() {
         const name = document.getElementById("modalName").innerText;
-        const picName = document.getElementById("inpPICName").value; // Ambil PIC yang disimpan
+        const picName = document.getElementById("inpPICName").value;
         
-        // --- LOGIC TANGGAL & TRX ID ---
         const today = new Date();
         const dateStr = new Intl.DateTimeFormat('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }).format(today);
         const timeStr = new Intl.DateTimeFormat('id-ID', { hour: '2-digit', minute: '2-digit' }).format(today);
-        
         const randomNum = Math.floor(Math.random() * 900) + 100;
         const trxId = "TRX-" + today.getDate() + (today.getMonth()+1) + "-" + randomNum;
 
@@ -708,12 +625,11 @@
         addRow("Drone Mentah", parseFloat(document.getElementById("inpCineQty").value)||0, PRICES.CINEMATIC);
         addRow(document.getElementById("inpOptName").value || "Optional", parseFloat(document.getElementById("inpOptQty").value)||0, parseFloat(document.getElementById("inpOptPrice").value)||0);
 
-        // Isi Data ke HTML Receipt
         document.getElementById("rcTrxId").innerText = trxId;
         document.getElementById("rcName").innerText = name;
         document.getElementById("rcDate").innerText = dateStr;
         document.getElementById("rcTime").innerText = timeStr;
-        document.getElementById("rcCashier").innerText = picName; // SET NAMA KASIR DISINI
+        document.getElementById("rcCashier").innerText = picName;
         document.getElementById("rcSubtotal").innerText = formatRupiah(grandTotal);
         
         let valDP = parseFloat(document.getElementById("inpDP").value) || 0;
@@ -727,7 +643,6 @@
         else if(final < 0) { lblFinal.innerText = "KEMBALI"; valFinal.innerText = formatRupiah(Math.abs(final)); } 
         else { lblFinal.innerText = "STATUS"; valFinal.innerText = "LUNAS"; }
 
-        // --- SIMPAN KE LOCAL STORAGE ---
         if(activeRowElement && activeRowID) {
             activeRowElement.classList.add('row-done');
             localStorage.setItem(activeRowID, "true");
